@@ -267,7 +267,7 @@ obj = Solution()
 reverseNode = obj.reverseList(node1)
 reverseNode.traverse()
         
-# Q102
+# Q102 Binary Tree Level Order Traversal
 # Definition for a binary tree node.
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
@@ -470,7 +470,7 @@ while left <= right:
         res = mid
         break
     else:
-        if nums[left] < nums[mid]:
+        if nums[left] <= nums[mid]:
             if (target >= nums[left]) and (target < nums[mid]):
                 right = mid - 1
             else:
@@ -480,11 +480,339 @@ while left <= right:
                 left = mid + 1
             else:
                 right = mid - 1
+                
+# Q203
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, val = 0, next = None):
+        self.val = val
+        self.next = next
+    def traverse(self):
+        cur = self
+        while cur:
+            print(cur.val, end = ' ')
+            cur = cur.next
+        
+class Solution(object):
+    def removeElements(self, head, val):
+        """
+        :type head: ListNode
+        :type val: int
+        :rtype: ListNode
+        """
+        
+#head = [1,2,6,3,4,5,6], val = 6
+#head = [7,7,7,7], val = 7
+       
+node1 = ListNode(1)
+node2 = ListNode(2)
+node3 = ListNode(6)
+node4 = ListNode(3)
+node5 = ListNode(4)
+node6 = ListNode(5)
+node7 = ListNode(6)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node6
+node6.next = node7
+
+val = 6
+    
+
+# node1 = ListNode(7)
+# node2 = ListNode(7)
+# node3 = ListNode(7)
+# node4 = ListNode(7)
+
+# node1.next = node2
+# node2.next = node3
+# node3.next = node4
+
+# val = 7
+
+# iterative
+dummy_node = ListNode(0,node1)
+prev = dummy_node
+cur = node1
+while cur:
+    if cur.val == val:
+        prev.next = cur.next
+        cur = cur.next
+    else:
+        prev = cur
+        cur = cur.next
+    
+res = dummy_node.next
+# recursive
+def removeNode(head, val):
+    if head is None:
+        return
+    elif head.val == val:
+        return removeNode(head.next, val)
+    else:
+        head.next = removeNode(head.next,val)
+        return head
+    
+head = removeNode(node1, val)
+
+class Solution(object):
+    def removeElements(self, head, val):
+        """
+        :type head: ListNode
+        :type val: int
+        :rtype: ListNode
+        """
+        if head is None:
+            return
+        elif head.val == val:
+            return self.removeElements(head.next, val)
+        else:
+            head.next = self.removeElements(head.next,val)
+            return head
+        
+# Q114 Flatten Binary Tree to Linked List
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+    def traversePreorder(self):
+        print(self.val)
+        if self.left:
+            self.left.traversePreorder()
+        if self.right:
+            self.right.traversePreorder()
+        
+class Solution(object):
+    def flatten(self, root):
+        """
+        :type root: TreeNode
+        :rtype: None Do not return anything, modify root in-place instead.
+        """
+        def traversePreorder(root, myList):
+            myList.append(root.val)
+            if root.left:
+                traversePreorder(root.left, myList)
+            if root.right:
+                traversePreorder(root.right, myList)   
+    
+        myList = []
+        if root:
+            traversePreorder(root, myList)
+            cur = root
+            for i in range(1,len(myList)):
+                cur.left = None
+                cur.right = TreeNode(myList[i])
+                cur = cur.right
+        
+node1 = TreeNode(1)
+node2 = TreeNode(2)        
+node3 = TreeNode(5)   
+node4 = TreeNode(3)   
+node5 = TreeNode(4)
+node6 = TreeNode(6)   
+
+node1.left = node2
+node1.right = node3
+node2.left = node4
+node2.right = node5
+node3.right = node6 
+
+root = node1    
+    
+def traversePreorder(root, myList):
+    myList.append(root.val)
+    if root.left:
+        traversePreorder(root.left, myList)
+    if root.right:
+        traversePreorder(root.right, myList)   
+
+myList = []
+if root:
+    traversePreorder(root, myList)
+    cur = root
+    for i in range(1,len(myList)):
+        cur.left = None
+        cur.right = TreeNode(myList[i])
+        cur = cur.right
+        
+# Q700 Search in a Binary Search Tree
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+    def traverseInorder(self):
+        if self.left:
+            self.left.traverseInorder()
+        print(self.val)
+        if self.right:
+            self.right.traverseInorder()
+        
+class Solution(object):
+    def searchBST(self, root, val):
+        """
+        :type root: TreeNode
+        :type val: int
+        :rtype: TreeNode
+        """
+
+node1 = TreeNode(4)
+node2 = TreeNode(2)        
+node3 = TreeNode(7)   
+node4 = TreeNode(1)   
+node5 = TreeNode(3)   
+node1.left = node2
+node1.right = node3
+node2.left = node4
+node2.right = node5
+
+val = 1
+
+# iterative SC: O(1)
+cur = node1
+res = None
+while cur:
+    if val == cur.val:
+        res = cur
+        break
+    elif val < cur.val:
+        cur = cur.left
+    else:
+        cur = cur.right
+
+# recursive
+def searchBST(root, val):
+    if root is None:
+        return
+    elif val == root.val:
+        return root
+    elif val < root.val:
+        searchBST(root.left, val)
+    else:
+        searchBST(root.right, val)
+        
+searchBST(node1, 3)
+    
+# 98. Validate Binary Search Tree
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+    def traverseInorder(self):
+        if self.left:
+            self.left.traverseInorder()
+        print(self.val)
+        if self.right:
+            self.right.traverseInorder()
+        
+class Solution(object):
+    def traverseInorder(self, root, myList):
+        if root.left:
+            self.traverseInorder(root.left, myList)
+        myList.append(root.val)
+        if root.right:
+            self.traverseInorder(root.right, myList)
+    
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        myList = []    
+        self.traverseInorder(root, myList)
+        for i in range(1,len(myList)):
+            if myList[i-1] >= myList[i]:
+                return False
+        return True
+
+node1 = TreeNode(5)
+node2 = TreeNode(1)        
+node3 = TreeNode(4)   
+node4 = TreeNode(3)   
+node5 = TreeNode(6)   
+node1.left = node2
+node1.right = node3
+node3.left = node4
+node3.right = node5    
+    
+root = node1    
+    
+# recursive
+# def isValidBST(root):
+#     if (root.left == None) and (root.right == None):
+#         return True
+#     if root.left:
+#         if root.left.val >= root.val:
+#             return False
+#         res = isValidBST(root.left)
+#     if root.right:
+#         if root.right.val <= root.val:
+#             return False
+#         res = isValidBST(root.right)
+#     return res
+
+myList = []
+def traverseInorder(root):
+    if root.left:
+        traverseInorder(root.left)
+    myList.append(root.val)
+    if root.right:
+        traverseInorder(root.right)
+        
+traverseInorder(node1)
+
+res = True
+for i in range(1,len(myList)):
+    if myList[i-1] >= myList[i]:
+        res = False
+        break
+    
+# 141. Linked List Cycle
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+    def traverse(self):
+        cur = self
+        while cur:
+            print(cur.val, end = ' ')
+            cur = cur.next
             
+class Solution(object):
+    def hasCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        
+node1 = ListNode(3)
+node2 = ListNode(2)
+node3 = ListNode(0)
+node4 = ListNode(4)
 
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node2
 
+head = node1
 
-
-
-
-
+hashtable = set()
+res = False
+cur = head
+while cur:
+    if cur not in hashtable:
+        hashtable.add(cur)
+        cur = cur.next
+    else:
+        res = True
+        break
