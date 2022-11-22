@@ -806,6 +806,7 @@ node4.next = node2
 
 head = node1
 
+# hashtable
 hashtable = set()
 res = False
 cur = head
@@ -814,5 +815,17 @@ while cur:
         hashtable.add(cur)
         cur = cur.next
     else:
+        res = True
+        break
+    
+# double pointer
+ptr1 = head
+ptr2 = head
+
+res = False
+while ptr2 and ptr2.next:
+    ptr1 = ptr1.next
+    ptr2 = ptr2.next.next
+    if ptr1 == ptr2:
         res = True
         break
