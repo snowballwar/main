@@ -829,3 +829,74 @@ while ptr2 and ptr2.next:
     if ptr1 == ptr2:
         res = True
         break
+    
+# 34. Find First and Last Position of Element in Sorted Array
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+
+nums = [5,7,7,8,8,10]
+target = 6
+
+nums = [1]
+target = 1
+
+# starting position
+left = 0
+right = len(nums) - 1
+start = -1
+
+while left <= right:
+    mid = (left + right) // 2
+    if nums[mid] == target:
+        start = mid
+        right = mid - 1
+    elif nums[mid] > target:
+        right = mid - 1
+    else:
+        left = mid + 1
+
+left = 0
+right = len(nums) - 1
+end = -1
+
+while left <= right:
+    mid = (left + right) // 2
+    if nums[mid] == target:
+        end = mid
+        left = mid + 1
+    elif nums[mid] > target:
+        right = mid - 1
+    else:
+        left = mid + 1
+
+# Counting Bits:: Return Position of Bits
+class Solution(object):
+    def countBits(self, n):
+        """
+        :type n: int
+        :rtype: List[int]
+        """
+        myList = []
+        num = n
+        cnt = 0
+        while num > 0:
+            if num % 2 == 1:
+                myList.append(cnt)
+            num = num // 2  
+            cnt = cnt + 1
+
+n = 10000
+        
+myList = []
+num = n
+cnt = 0
+while num > 0:
+    if num % 2 == 1:
+        myList.append(cnt)
+    num = num // 2  
+    cnt = cnt + 1
