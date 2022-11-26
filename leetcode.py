@@ -874,7 +874,7 @@ while left <= right:
     else:
         left = mid + 1
 
-# Counting Bits:: Return Position of Bits
+# Counting Bits:: Return Position of Bits O(log(N))
 class Solution(object):
     def countBits(self, n):
         """
@@ -900,3 +900,198 @@ while num > 0:
         myList.append(cnt)
     num = num // 2  
     cnt = cnt + 1
+
+# 92. Reverse Linked List II
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+    def traverse(self):
+        while self:
+            print(self.val, end = ' ')
+            self = self.next
+        
+class Solution(object):
+    def reverseBetween(self, head, left, right):
+        """
+        :type head: ListNode
+        :type left: int
+        :type right: int
+        :rtype: ListNode
+        """
+        
+# head = [1,2,3,4,5], left = 2, right = 4
+# head = [1,2,3], left = 3, right = 3
+# node1 = ListNode(1)
+# node2 = ListNode(2)
+# node3 = ListNode(3)
+# node4 = ListNode(4)
+# node5 = ListNode(5)
+# node1.next = node2
+# node2.next = node3
+# node3.next = node4
+# node4.next = node5
+# head = node1
+# left = 1
+# right = 4
+
+node1 = ListNode(1)
+node2 = ListNode(2)
+node3 = ListNode(3)
+node1.next = node2
+node2.next = node3
+head = node1
+left = 3
+right = 3
+
+
+if left == 1:
+    prev = head
+    cur = head.next
+    for i in range(right - 1):
+        temp = cur.next
+        cur.next = prev
+        prev = cur
+        cur = temp
+    end1 = prev
+    end2 = cur
+    head.next = end2
+    res = end1
+    
+if left > 1:
+    cur = head
+    for i in range(left - 1):
+        prev = cur
+        cur = cur.next
+    start1 = prev
+    start2 = cur
+    prev = cur
+    cur = cur.next
+    for i in range(left - 1, right - 1):
+        temp = cur.next
+        cur.next = prev
+        prev = cur
+        cur = temp
+    end1 = prev
+    end2 = cur
+    start1.next = end1
+    start2.next = end2
+    res = head
+
+# 234. Palindrome Linked List
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+    def traverse(self):
+        cur = self
+        while cur:
+            print(cur.val, end = ' ')
+            cur = cur.next
+        
+class Solution(object):
+    def isPalindrome(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        
+node1 = ListNode(1)
+node2 = ListNode(2)
+node3 = ListNode(2)
+node4 = ListNode(1)
+node1.next = node2
+node2.next = node3
+node3.next = node4
+
+head = node1
+
+def reverseLinkedlist(head):
+    prev = None
+    cur = head
+    while cur:
+        temp = cur.next
+        cur.next = prev
+        prev = cur
+        cur = temp
+    return prev    
+
+cur = head
+cnt = 0
+while cur:
+    cnt = cnt + 1
+    cur = cur.next
+midcnt = cnt // 2
+
+cur = head
+for i in range(midcnt):
+    cur = cur.next    
+tail = reverseLinkedlist(cur)
+
+res = True
+cur1 = head
+cur2 = tail
+for i in range(midcnt):
+    if cur1.val != cur2.val:
+        res = False
+    cur1 = cur1.next
+    cur2 = cur2.next
+    
+    
+# 155. Min Stack
+class MinStack(object):
+
+    def __init__(self):
+        self.myList = []
+        self.minStack = []
+
+    def push(self, val):
+        """
+        :type val: int
+        :rtype: None
+        """
+        self.myList.append(val)
+        if len(self.minStack) == 0:
+            self.minStack.append(val)
+            return
+        if val < self.minStack[-1]:
+            self.minStack.append(val)
+        else:
+            self.minStack.append(self.minStack[-1])
+
+    def pop(self):
+        """
+        :rtype: None
+        """
+        self.myList.pop()
+        self.minStack.pop()
+
+    def top(self):
+        """
+        :rtype: int
+        """
+        return self.myList[-1]
+
+    def getMin(self):
+        """
+        :rtype: int
+        """
+        return self.minStack[-1]
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(val)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
+
+obj = MinStack()
+obj.push(-2)
+obj.push(0)
+obj.push(-3)
+obj.getMin()
+obj.pop()
+obj.top() 
+obj.getMin()
